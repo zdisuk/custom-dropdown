@@ -4,6 +4,7 @@
       <input
         class="input-bar__search"
         placeholder="Click to filter"
+        v-model="userInput"
         type="text"
       >
       <div class="input-bar__button">
@@ -17,6 +18,7 @@
           v-for="user in users"
           :key="user.id"
           class="list__option"
+          @click="selectOption(user)"
         >{{ user.name }}</p>
       </div>
     </div>
@@ -35,6 +37,7 @@ export default {
   data(){
     return {
       optionsIsVisible: false,
+      userInput: "",
     }
   },
 
@@ -44,6 +47,10 @@ export default {
     },
     showOptions(){
       this.optionsIsVisible = true
+    },
+    selectOption(user){
+      this.userInput = user.name
+      this.hideOptions()
     },
   }
 
