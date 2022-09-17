@@ -74,10 +74,15 @@ export default {
       this.resetFilter()
     },
     selectOption(user){
-      this.userInput = user.name
-      this.resetActive()
-      user.isActive = true
-      this.hideOptions()
+      if (this.userInput === user.name){
+        this.userInput = ""
+        user.isActive = false
+      } else {
+        this.userInput = user.name
+        this.resetActive()
+        user.isActive = true
+        this.hideOptions()
+      }
     },
     resetFilter(){
       this.filteredList = this.users
@@ -174,7 +179,7 @@ export default {
 		}
 }
 .active{
-  background-color: darkgray;
-  color: black;
+  background-color: gray;
+  color: white;
 }
 </style>
