@@ -7,7 +7,7 @@
         v-model="userInput"
         type="text"
       >
-      <div class="input-bar__button">
+      <div class="input-bar__button" @click.stop="toggleOptionsVisibility">
         <div class="input-bar__arrow"></div>
       </div>
     </div>
@@ -61,6 +61,9 @@ export default {
   },
 
   methods: {
+    toggleOptionsVisibility(){
+      this.optionsIsVisible = !this.optionsIsVisible
+    },
     hideOptions(){
       this.optionsIsVisible = false
     },
