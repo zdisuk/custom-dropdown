@@ -17,6 +17,7 @@
         <p
           v-for="user in filteredList"
           :key="user.id"
+          :class="{active: user.isActive}"
           class="list__option"
           @click="selectOption(user)"
         >{{ user.name }}</p>
@@ -74,10 +75,17 @@ export default {
     },
     selectOption(user){
       this.userInput = user.name
+      this.resetActive()
+      user.isActive = true
       this.hideOptions()
     },
     resetFilter(){
       this.filteredList = this.users
+    },
+    resetActive(){
+      this.filteredList.forEach(el => {
+        el.isActive = false
+      })
     }
   }
 
@@ -164,5 +172,9 @@ export default {
           color: black;
         }
 		}
+}
+.active{
+  background-color: darkgray;
+  color: black;
 }
 </style>

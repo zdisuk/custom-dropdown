@@ -11,7 +11,7 @@ export default {
   data(){
     return {
       users: [
-        {id: 0, name: "Alex", isActive: true,},
+        {id: 0, name: "Alex", isActive: false,},
         {id: 1, name: "Bob", isActive: false,},
         {id: 2, name: "Jack", isActive: false,},
         {id: 3, name: "Kate", isActive: false,},
