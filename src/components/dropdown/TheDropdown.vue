@@ -40,11 +40,26 @@ export default {
       optionsIsVisible: false,
       userInput: "",
       filteredList: [],
+      counter: -1,
     }
   },
 
   mounted(){
     this.resetFilter()
+
+    window.addEventListener("keyup", (event) => {
+      if (event.key === "ArrowUp" && this.counter > 0){
+        this.counter--
+        this.nextOption()
+      }
+      if (event.key === "ArrowDown" && this.counter < this.filteredList.length-1){
+        this.counter++
+        this.nextOption()
+      }
+      if (event.key === "Enter"){
+        this.selectOption(this.filteredList[this.counter])
+      }
+    })
   },
 
   watch: {
@@ -79,9 +94,16 @@ export default {
         user.isActive = false
       } else {
         this.userInput = user.name
-        this.resetActive()
-        user.isActive = true
+        this.nextOption(user)
         this.hideOptions()
+      }
+    },
+    nextOption(user){
+      this.resetActive()
+      if (user){
+        user.isActive = true
+      } else {
+        this.filteredList[this.counter].isActive = true
       }
     },
     resetFilter(){
