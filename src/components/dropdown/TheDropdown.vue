@@ -43,7 +43,7 @@ export default {
   },
 
   mounted(){
-    this.filteredList = this.users
+    this.resetFilter()
   },
 
   watch: {
@@ -63,17 +63,22 @@ export default {
   methods: {
     toggleOptionsVisibility(){
       this.optionsIsVisible = !this.optionsIsVisible
+      this.resetFilter()
     },
     hideOptions(){
       this.optionsIsVisible = false
     },
     showOptions(){
       this.optionsIsVisible = true
+      this.resetFilter()
     },
     selectOption(user){
       this.userInput = user.name
       this.hideOptions()
     },
+    resetFilter(){
+      this.filteredList = this.users
+    }
   }
 
 }
