@@ -15,7 +15,7 @@
       <div class="list__title">Simple filter</div>
       <div class="list__options">
         <p
-          v-for="user in users"
+          v-for="user in filteredList"
           :key="user.id"
           class="list__option"
           @click="selectOption(user)"
@@ -38,6 +38,25 @@ export default {
     return {
       optionsIsVisible: false,
       userInput: "",
+      filteredList: [],
+    }
+  },
+
+  mounted(){
+    this.filteredList = this.users
+  },
+
+  watch: {
+    userInput(){
+      // When user input empty, we display all users
+      if (this.userInput === ""){
+        this.filteredList = this.users
+      } else {
+        // If element include our user input we show this elements 
+        this.filteredList = this.users.filter(el => {
+          return el.name.toLowerCase().includes(this.userInput.toLowerCase())
+        })
+      }
     }
   },
 
