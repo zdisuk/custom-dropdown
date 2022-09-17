@@ -57,7 +57,11 @@ export default {
         this.nextOption()
       }
       if (event.key === "Enter"){
-        this.selectOption(this.filteredList[this.counter])
+        if (this.optionsIsVisible){
+          this.selectOption(this.filteredList[this.counter])
+        } else if (!this.optionsIsVisible){
+          this.showOptions()
+        }
       }
     })
   },
