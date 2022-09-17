@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="input-bar">
+    <div class="input-bar" @click="showOptions">
       <input
         class="input-bar__search"
         placeholder="Click to filter"
@@ -10,7 +10,7 @@
         <div class="input-bar__arrow"></div>
       </div>
     </div>
-    <div class="list">
+    <div class="list" v-if="optionsIsVisible">
       <div class="list__title">Simple filter</div>
       <div class="list__options">
         <p
@@ -30,6 +30,21 @@ export default {
       type: Object,
       required: true
     }
+  },
+  
+  data(){
+    return {
+      optionsIsVisible: false,
+    }
+  },
+
+  methods: {
+    hideOptions(){
+      this.optionsIsVisible = false
+    },
+    showOptions(){
+      this.optionsIsVisible = true
+    },
   }
 
 }
