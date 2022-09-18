@@ -2,10 +2,10 @@
   <div class="wrapper">
     <div class="input-bar" @click="showOptions">
       <input
-        class="input-bar__search"
-        placeholder="Click to filter"
-        v-model="userInput"
-        type="text"
+      	v-model="userInput"
+      	class="input-bar__search"
+      	placeholder="Click to filter"
+      	type="text"
       >
       <div class="input-bar__button" @click.stop="toggleOptionsVisibility">
         <div class="input-bar__arrow"></div>
@@ -15,11 +15,11 @@
       <div class="list__title">Simple filter</div>
       <div class="list__options">
         <p
-          v-for="user in filteredList"
-          :key="user.id"
-          :class="{active: user.isActive === 'active', highlight: user.isActive === 'highlight'}"
-          class="list__option"
-          @click="selectOptionByClick(user)"
+        	v-for="user in filteredList"
+        	class="list__option"
+        	:key="user.id"
+        	:class="{active: user.isActive === 'active', highlight: user.isActive === 'highlight'}"
+        	@click="selectOptionByClick(user)"
         >{{ user.name }}</p>
       </div>
     </div>
@@ -95,6 +95,7 @@ export default {
     selectOptionByClick(user){
       // when we select already selected element, we reset this element
       if (this.selectedOptionId === user.id){
+        this.userInput = ""
         this.selectedOptionId = null
         user.isActive = ""
       } else {
@@ -109,6 +110,7 @@ export default {
     selectOptionByEnter(user){
       if (this.optionsIsVisible){
         if (this.selectedOptionId === user.id){
+          this.userInput = ""
           this.selectedOptionId = null
           user.isActive = "highlight"
         } else {
@@ -132,14 +134,14 @@ export default {
       this.filteredList = this.users
     },
     resetHighlight(){
-      this.filteredList.forEach(el => {
+      this.users.forEach(el => {
         if (el.isActive !== "active"){
           el.isActive = ""
         }
       })
     },
     resetActive(){
-      this.filteredList.forEach(el => {
+      this.users.forEach(el => {
         if (el.isActive !== "highlight"){
           el.isActive = ""
         }
