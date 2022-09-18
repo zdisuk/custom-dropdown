@@ -17,9 +17,9 @@
         <p
           v-for="user in filteredList"
           :key="user.id"
-          :class="{active: user.isActive}"
+          :class="{active: user.isActive === 'active', highlight: user.isActive === 'highlight'}"
           class="list__option"
-          @click="selectOption(user)"
+          @click="selectOptionByClick(user)"
         >{{ user.name }}</p>
       </div>
     </div>
@@ -41,6 +41,7 @@ export default {
       userInput: "",
       filteredList: [],
       counter: -1,
+      selectedOptionId: null,
     }
   },
 
@@ -57,11 +58,7 @@ export default {
         this.nextOption()
       }
       if (event.key === "Enter"){
-        if (this.optionsIsVisible){
-          this.selectOption(this.filteredList[this.counter])
-        } else if (!this.optionsIsVisible){
-          this.showOptions()
-        }
+        this.selectOptionByEnter(this.filteredList[this.counter])
       }
     })
   },
@@ -77,12 +74,13 @@ export default {
           return el.name.toLowerCase().includes(this.userInput.toLowerCase())
         })
       }
-    }
+    },
   },
 
   methods: {
     toggleOptionsVisibility(){
       this.optionsIsVisible = !this.optionsIsVisible
+      this.resetHighlight()
       this.resetFilter()
     },
     hideOptions(){
@@ -90,32 +88,61 @@ export default {
     },
     showOptions(){
       this.optionsIsVisible = true
+      this.resetHighlight()
       this.resetFilter()
+      this.counter = -1
     },
-    selectOption(user){
-      if (this.userInput === user.name){
-        this.userInput = ""
-        user.isActive = false
+    selectOptionByClick(user){
+      // when we select already selected element, we reset this element
+      if (this.selectedOptionId === user.id){
+        this.selectedOptionId = null
+        user.isActive = ""
       } else {
+        // when we select not selected element yet, we do this element active
         this.userInput = user.name
-        this.nextOption(user)
+        this.selectedOptionId = user.id
+        this.resetActive()
+        user.isActive = "active"
         this.hideOptions()
       }
     },
-    nextOption(user){
-      this.resetActive()
-      if (user){
-        user.isActive = true
-      } else {
-        this.filteredList[this.counter].isActive = true
+    selectOptionByEnter(user){
+      if (this.optionsIsVisible){
+        if (this.selectedOptionId === user.id){
+          this.selectedOptionId = null
+          user.isActive = "highlight"
+        } else {
+          this.userInput = user.name
+          this.selectedOptionId = user.id
+          this.resetActive()
+          user.isActive = 'active'
+          this.hideOptions()
+        }
+      }else if (!this.optionsIsVisible){
+        this.showOptions()
+      }
+    },
+    nextOption(){
+      this.resetHighlight()
+      if (this.filteredList[this.counter].isActive !== "active"){
+        this.filteredList[this.counter].isActive = "highlight"
       }
     },
     resetFilter(){
       this.filteredList = this.users
     },
+    resetHighlight(){
+      this.filteredList.forEach(el => {
+        if (el.isActive !== "active"){
+          el.isActive = ""
+        }
+      })
+    },
     resetActive(){
       this.filteredList.forEach(el => {
-        el.isActive = false
+        if (el.isActive !== "highlight"){
+          el.isActive = ""
+        }
       })
     }
   }
@@ -207,5 +234,9 @@ export default {
 .active{
   background-color: gray;
   color: white;
+}
+.highlight{
+  background-color: darkgray;
+  color: black;
 }
 </style>
