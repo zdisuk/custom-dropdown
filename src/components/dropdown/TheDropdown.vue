@@ -48,6 +48,12 @@ export default {
   mounted(){
     this.resetFilter()
 
+    window.addEventListener("click", (event) => {
+      if (event.target.tagName === "BODY"){
+        this.hideOptions()
+      }
+    })
+
     window.addEventListener("keyup", (event) => {
       if (event.key === "ArrowUp" && this.counter > 0){
         this.counter--
@@ -82,6 +88,7 @@ export default {
       this.optionsIsVisible = !this.optionsIsVisible
       this.resetHighlight()
       this.resetFilter()
+      this.counter = -1
     },
     hideOptions(){
       this.optionsIsVisible = false
