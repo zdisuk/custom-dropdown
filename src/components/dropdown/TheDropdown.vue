@@ -64,7 +64,6 @@ export default {
           this.times--
           this.$refs.options.scrollTop = 28.5 * (this.times - 1)
         }
-        console.log(this.$refs.option[this.counter].offsetTop)
       }
       if (event.key === "ArrowDown" && this.counter < this.filteredList.length-1){
         this.counter++
@@ -73,7 +72,6 @@ export default {
           this.$refs.options.scrollTop = 28.5 * this.times
           this.times++
         }
-        console.log(this.$refs.option[this.counter].offsetTop)
       }
       if (event.key === "Enter"){
         this.selectOptionByEnter(this.filteredList[this.counter])
