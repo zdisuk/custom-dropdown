@@ -17,7 +17,6 @@
         <p
         	v-for="user in filteredList"
         	class="list__option"
-          ref="option"
         	:key="user.id"
         	:class="{active: user.isActive === 'active', highlight: user.isActive === 'highlight'}"
         	@click="selectOptionByClick(user)"
