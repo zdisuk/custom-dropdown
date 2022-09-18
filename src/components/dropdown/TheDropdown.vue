@@ -13,10 +13,11 @@
     </div>
     <div class="list" v-if="optionsIsVisible">
       <div class="list__title">Simple filter</div>
-      <div class="list__options">
+      <div class="list__options" ref="options">
         <p
         	v-for="user in filteredList"
         	class="list__option"
+          ref="option"
         	:key="user.id"
         	:class="{active: user.isActive === 'active', highlight: user.isActive === 'highlight'}"
         	@click="selectOptionByClick(user)"
@@ -42,6 +43,7 @@ export default {
       filteredList: [],
       counter: -1,
       selectedOptionId: null,
+      times: 1,
     }
   },
 
@@ -58,10 +60,20 @@ export default {
       if (event.key === "ArrowUp" && this.counter > 0){
         this.counter--
         this.nextOption()
+        if (this.counter >= 0){
+          this.times--
+          this.$refs.options.scrollTop = 28.5 * (this.times - 1)
+        }
+        console.log(this.$refs.option[this.counter].offsetTop)
       }
       if (event.key === "ArrowDown" && this.counter < this.filteredList.length-1){
         this.counter++
         this.nextOption()
+        if (this.counter > 0){
+          this.$refs.options.scrollTop = 28.5 * this.times
+          this.times++
+        }
+        console.log(this.$refs.option[this.counter].offsetTop)
       }
       if (event.key === "Enter"){
         this.selectOptionByEnter(this.filteredList[this.counter])
@@ -89,6 +101,7 @@ export default {
       this.resetHighlight()
       this.resetFilter()
       this.counter = -1
+      this.times = 1
     },
     hideOptions(){
       this.optionsIsVisible = false
@@ -98,6 +111,7 @@ export default {
       this.resetHighlight()
       this.resetFilter()
       this.counter = -1
+      this.times = 1
     },
     selectOptionByClick(user){
       // when we select already selected element, we reset this element
@@ -224,7 +238,7 @@ export default {
 		&__options {
       overflow: scroll;
       height: fit-content;
-      max-height: 250px;
+      max-height: 255px;
 		}
 
 		&__option {
